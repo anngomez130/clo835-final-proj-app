@@ -11,8 +11,12 @@ app = Flask(__name__)
 # Initialize Amazon S3 client
 s3 = boto3.client('s3')
 
+# s3 variables
+S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+S3_OBJECT_KEY = os.environ.get('S3_OBJECT_KEY')
 # Get Background Image URL from ConfigMap
 BGIMAGE = os.environ.get('BGIMAGE', 'interstellar.jpg')
+
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
@@ -51,6 +55,13 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
+# Download background image function
+def download_image(bucket_name, object_key, local_path):
+    try:
+        s3.download_file(bucket_name, object_key, local_path)
+        print("Background Image downloaded from S3:", local_path)
+    except Exception as e:
+        print("Error downloading image from S3:", e)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -140,7 +151,7 @@ if __name__ == '__main__':
         print("Color not supported. Received '" + COLOR + "' expected one of " + SUPPORTED_COLORS)
         exit(1)
 
-    # Print Background Image URL
-    print("Background Image URL:", BGIMAGE)  # Print the background image URL
+    # Download the image from S3
+    download_image(S3_BUCKET_NAME, S3_OBJECT_KEY, BGIMAGE)
 
     app.run(host='0.0.0.0',port=81,debug=True)
