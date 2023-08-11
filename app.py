@@ -7,6 +7,9 @@ import argparse
 
 app = Flask(__name__)
 
+# Initialize Amazon S3 client
+s3 = boto3.client('s3')
+
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "passwors"
@@ -47,7 +50,9 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    # Get Background Image URL from ConfigMap
+    bg_image = os.environ.get('BGIMAGE', 'interstellar.jpg')
+    return render_template('addemp.html', color=color_codes[COLOR], bgimage=bg_image)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
@@ -133,4 +138,4 @@ if __name__ == '__main__':
         print("Color not supported. Received '" + COLOR + "' expected one of " + SUPPORTED_COLORS)
         exit(1)
 
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True)
