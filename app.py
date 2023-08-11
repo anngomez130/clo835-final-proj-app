@@ -17,6 +17,8 @@ S3_OBJECT_KEY = os.environ.get('S3_OBJECT_KEY')
 # Get Background Image URL from ConfigMap
 BGIMAGE = os.environ.get('BGIMAGE', 'interstellar.jpg')
 
+# Group member names
+NAMES = os.environ.get('NAMES', '').split(',')
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
@@ -65,7 +67,7 @@ def download_image(bucket_name, object_key, local_path):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR], bgimage=BGIMAGE)
+    return render_template('addemp.html', color=color_codes[COLOR], bgimage=BGIMAGE, names=NAMES)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
