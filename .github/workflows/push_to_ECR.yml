@@ -24,10 +24,17 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         AWS_REGION: us-east-1
+        
     # Get short sha to have a unique identifier of image tag
-    - name: Get short sha and set IMAGE_TAG variable
+    #- name: Get short sha and set IMAGE_TAG variable
+    #  run: |
+    #    echo "IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+    
+    # set IMAGE_TAG variable
+    - name: Set IMAGE_TAG variable
       run: |
-        echo "IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+        echo "IMAGE_TAG=v1" >> $GITHUB_ENV
+        
     # mysql image
     - name: Build, test, tag, and push mysql image to Amazon ECR
       env:
@@ -45,6 +52,7 @@ jobs:
         # curl localhost -vvv
         
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
     # webapp image
     - name: Build, test, tag, and push webapp image to Amazon ECR
       env:
