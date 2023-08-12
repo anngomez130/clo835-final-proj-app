@@ -7,15 +7,13 @@
 	<font color="black" size="4" style="font-family: avenir">
 
 		<h1 style="color: DodgerBlue">Employee Database</h1>
-		<body style="background: {{ color }} url({{ bgimage }}) no-repeat center center fixed;">
+		<body style="background: url({{ bgimage }}) no-repeat center center fixed;">
 		<h2>Group4 Names List:</h2>
-		<ul>
+			<ul>
 			{% for name in names %}
 				<li>{{ name }}</li>
 			{% endfor %}
-		</ul>
-		<body style="background: {{ color }} url('/static/{{ bgimage }}') no-repeat center center fixed;">
-			
+			</ul>
 			<form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
 
 			
