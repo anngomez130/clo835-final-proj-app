@@ -2,6 +2,7 @@ FROM ubuntu:20.04
 RUN apt-get update -y
 COPY . /app
 WORKDIR /app
+RUN mkdir static
 RUN set -xe \
     && apt-get update -y \
     && apt-get install -y python3-pip \
