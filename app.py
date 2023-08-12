@@ -156,4 +156,4 @@ if __name__ == '__main__':
     # Download the image from S3
     download_image(S3_BUCKET_NAME, S3_OBJECT_KEY, BGIMAGE)
 
-    app.run(host='0.0.0.0',port=81,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True,static_folder='static')
