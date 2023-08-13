@@ -61,7 +61,7 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 def download_image(bucket_name, object_key, local_path):
     try:
         s3.download_file(bucket_name, object_key, local_path)
-        print("Background Image downloaded from S3:", local_path)
+        print("Background Image downloaded from S3 bucket {0} to local path: {1}".format(bucket_name,local_path)
     except Exception as e:
         print("Error downloading image from S3:", e)
 
